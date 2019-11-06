@@ -1,0 +1,53 @@
+<div class="row my-2">
+  <div class="col-md-6">
+    <h3>List of Tasks</h3>
+  </div>
+  <div class="col-md-6 text-right">
+    <button (click)="showForm=!showForm" class="btn btn-dark btn-sm" >
+      <i class="fa fa-plus"></i> New Task
+    </button>
+  </div>
+</div>
+
+<div class="row my-4" *ngIf="showForm">
+  <div class="col-md-6 mx-auto">
+    <div class="form-group">
+      <label for="label">label</label>
+      <input [(ngModel)]="myTask.label" id="label" type="text" class="form-control">
+    </div>
+    <div class="form-check my-2">
+      <label class="form-check-label">
+        <input [(ngModel)]="myTask.completed" type="checkbox" class="form-check-input">
+        Completed
+      </label>
+    </div>
+    <button *ngIf="editForm" class="btn btn-warning btn-block" (click)="updateTask()">
+      <i class="fa fa-refresh"></i> Update Task
+    </button>
+
+    <button *ngIf="!editForm" class="btn btn-primary btn-block" (click)="persistTask()">
+      <i class="fa fa-send"></i> New Task
+    </button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <input [(ngModel)]="searchText" (keyup)="searchTasks()" type="text" placeholder="Search..." class="form-control">
+    <ul class="list-group">
+      <li *ngFor="let task of filtredTasks" class="list-group-item d-flex justify-content-between align-items-center">
+        <button (click)="editTask(task)" class="btn btn-warning btn-sm">
+          <i class="fa fa-pencil"></i>
+        </button>
+        {{task.label}}
+        <span (click)="toggleCompleted(task)" [ngClass]="{'badge-info':task.completed,'badge-danger':!task.completed}" class="badge badge-pill" >
+          <i [ngClass]="{'fa-thumbs-up':task.completed,'fa-thumbs-down':!task.completed}" class="fa" aria-hidden="true"></i>
+        </span>
+        <button class="btn btn-dark btn-sm" (click)="deleteTask(task.id)">
+          <i class="fa fa-trash"></i>
+        </button>
+      </li>
+    </ul>
+
+  </div>
+</div>
